@@ -1,0 +1,19 @@
+{
+  "name": "connect4",
+  "version": "1.0.0",
+  "description": "Connect Four",
+  "main": "connect4.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sasha Goldenson",
+  "license": "MIT",
+  "dependencies": {
+    "npm": "^5.7.1",
+    "store": "^2.0.12"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
