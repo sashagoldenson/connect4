@@ -59,8 +59,7 @@ function Board(turn, moveCounter) {
     [0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0]],
   this.turn = turn,
-  this.moveCounter = moveCounter,
-  this.gameOver = false
+  this.moveCounter = moveCounter
 };
 
 Board.prototype.isFull = function() {
@@ -168,7 +167,7 @@ function buildGameTable() {
 };
 
 function playColumn(c) {
-  if (!field.isFull() && !field.gameOver) {
+  if (!field.isFull()) {
     field.cells.reverse();
     var i = field.getRowCoordinate(c) + 1
     field.moveCounter += 1;
@@ -183,14 +182,12 @@ function playColumn(c) {
     $("#score").html(
       (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
     );
-    field.gameOver = true;
     field.displayReplayButton();
     return;
   } else if (field.isFull()) { 
     $("#score").html(
       "Stalemate! Game over."
-    ); 
-    field.gameOver = true;
+    );
     field.displayReplayButton();
     return;
   }
