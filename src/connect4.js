@@ -1,5 +1,5 @@
 var store = require('store');
-var _ = require('lodash')
+// var _ = require('lodash')
 
 // var debounce = require('lodash.debounce');
 // function debounce(delay, callback) {
@@ -160,9 +160,9 @@ function buildGameTable() {
     $(".boardTable").append( $("<tr>").addClass("boardRow") );
     for (var j = 0; j < 7; j++) {
       $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j)
-      .click(_.debounce((function() {
+      .click(function() {
         if(turn==0) { playColumn(jQuery.data(this,"column")); }
-      }), 1000)));
+      }));
     }  
   }
 };
