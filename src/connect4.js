@@ -1,4 +1,24 @@
 var store = require('store');
+var _ = require('lodash')
+
+// var debounce = require('lodash.debounce');
+// function debounce(delay, callback) {
+//     var timeout = null;
+//     return function () {
+//         //
+//         // if a timeout has been registered before then
+//         // cancel it so that we can setup a fresh timeout
+//         //
+//         if (timeout) {
+//             clearTimeout(timeout);
+//         }
+//         var args = arguments;
+//         timeout = setTimeout(function () {
+//             callback.apply(null, args);
+//             timeout = null;
+//         }, delay);
+//     };
+// }
 
 gameCanvas = document.getElementById("game-canvas");
 gameBoard = document.getElementById("game-board");
@@ -39,7 +59,8 @@ function Board(turn, moveCounter) {
     [0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0]],
   this.turn = turn,
-  this.moveCounter = moveCounter
+  this.moveCounter = moveCounter,
+  this.gameOver = false
 };
 
 Board.prototype.isFull = function() {
@@ -139,15 +160,15 @@ function buildGameTable() {
     $(".boardTable").append( $("<tr>").addClass("boardRow") );
     for (var j = 0; j < 7; j++) {
       $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j)
-      .click(function() {
+      .click(_.debounce((function() {
         if(turn==0) { playColumn(jQuery.data(this,"column")); }
-      }));
+      }), 1000)));
     }  
   }
 };
 
 function playColumn(c) {
-  if (!field.isFull()) {
+  if (!field.isFull() && !field.gameOver) {
     field.cells.reverse();
     var i = field.getRowCoordinate(c) + 1
     field.moveCounter += 1;
@@ -162,12 +183,14 @@ function playColumn(c) {
     $("#score").html(
       (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
     );
+    field.gameOver = true;
     field.displayReplayButton();
     return;
   } else if (field.isFull()) { 
     $("#score").html(
       "Stalemate! Game over."
     ); 
+    field.gameOver = true;
     field.displayReplayButton();
     return;
   }
