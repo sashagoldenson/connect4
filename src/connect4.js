@@ -1,7 +1,5 @@
 var store = require('store');
 
-gameCanvas = document.getElementById("game-canvas");
-gameBoard = document.getElementById("game-board");
 playerName = document.getElementById("player-name");
 
 $(document).ready(function() {
@@ -39,7 +37,8 @@ function Board(turn, moveCounter) {
     [0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0]],
   this.turn = turn,
-  this.moveCounter = moveCounter
+  this.moveCounter = moveCounter,
+  this.gameOver = false
 };
 
 Board.prototype.isFull = function() {
@@ -147,7 +146,7 @@ function buildGameTable() {
 };
 
 function playColumn(c) {
-  if (!field.isFull()) {
+  if (!field.isFull() && !field.gameOver) {
     field.cells.reverse();
     var i = field.getRowCoordinate(c) + 1
     field.moveCounter += 1;
@@ -158,10 +157,11 @@ function playColumn(c) {
     field.cells[i][c] = ((field.turn % 2) + 1);
     field.turn += 1;
   }
-  if (field.checkForWin(field.getRowCoordinate(c),c)) { 
+  if (field.checkForWin(field.getRowCoordinate(c),c)) {
     $("#score").html(
       (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
-    );
+     );
+    field.gameOver = true
     field.displayReplayButton();
     return;
   } else if (field.isFull()) { 
@@ -169,6 +169,7 @@ function playColumn(c) {
       "Stalemate! Game over."
     ); 
     field.displayReplayButton();
+    field.gameOver = true
     return;
   }
     field.displayCurrentPlayer();
