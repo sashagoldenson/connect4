@@ -1,4 +1,24 @@
 var store = require('store');
+// var _ = require('lodash')
+
+// var debounce = require('lodash.debounce');
+// function debounce(delay, callback) {
+//     var timeout = null;
+//     return function () {
+//         //
+//         // if a timeout has been registered before then
+//         // cancel it so that we can setup a fresh timeout
+//         //
+//         if (timeout) {
+//             clearTimeout(timeout);
+//         }
+//         var args = arguments;
+//         timeout = setTimeout(function () {
+//             callback.apply(null, args);
+//             timeout = null;
+//         }, delay);
+//     };
+// }
 
 playerName = document.getElementById("player-name");
 
@@ -167,7 +187,7 @@ function playColumn(c) {
   } else if (field.isFull()) { 
     $("#score").html(
       "Stalemate! Game over."
-    ); 
+    );
     field.displayReplayButton();
     field.gameOver = true
     return;
