@@ -9,8 +9,10 @@
   "author": "Sasha Goldenson",
   "license": "MIT",
   "dependencies": {
+    "browserify": "^16.1.1",
     "npm": "^5.7.1",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

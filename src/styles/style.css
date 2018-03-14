@@ -83,8 +83,9 @@ h3 {
 
 #score {
   font-size: 35px;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  height: 24px;
+  width: 400px;
+  margin: 20px auto;
 }
 
 #replay {
@@ -97,6 +98,7 @@ h3 {
   border-radius: 25px;
   cursor: pointer;
   color: #000;
+  margin-top: 10px;
 }
 
 /*

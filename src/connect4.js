@@ -1,24 +1,5 @@
 var store = require('store');
-// var _ = require('lodash')
-
-// var debounce = require('lodash.debounce');
-// function debounce(delay, callback) {
-//     var timeout = null;
-//     return function () {
-//         //
-//         // if a timeout has been registered before then
-//         // cancel it so that we can setup a fresh timeout
-//         //
-//         if (timeout) {
-//             clearTimeout(timeout);
-//         }
-//         var args = arguments;
-//         timeout = setTimeout(function () {
-//             callback.apply(null, args);
-//             timeout = null;
-//         }, delay);
-//     };
-// }
+var _ = require('underscore')
 
 playerName = document.getElementById("player-name");
 
@@ -87,10 +68,14 @@ Board.prototype.checkForWin = function(row, col) {
     } else {
       // northeast and southwest
       if (this.sumLikeAdjCells(row, col, -1, 1) + (this.sumLikeAdjCells(row, col, 1, -1)) > 2) {
+        console.log("NE and SW")
+        console.log((this.sumLikeAdjCells(row, col, -1, 1) + (this.sumLikeAdjCells(row, col, 1, -1))))
         return true;
       } else {
         // northwest and southeast
         if (this.sumLikeAdjCells(row, col, -1, -1) + (this.sumLikeAdjCells(row, col, 1, 1)) > 2) {
+          console.log("NW and SE")
+          console.log((this.sumLikeAdjCells(row, col, -1, -1) + (this.sumLikeAdjCells(row, col, 1, 1))))
           return true;
         } else {
           return false;
@@ -102,12 +87,16 @@ Board.prototype.checkForWin = function(row, col) {
 
 Board.prototype.sumLikeAdjCells = function(row, col, row_modifier, col_modifier) {
   // if the current cell is like the cell which is found using the row and col incrementers
-  if (this.getCell(row, col) == this.getCell(row + row_modifier, col + col_modifier)) {
-    // return a 1 and recursively call this function again on that matching cell with the same coordinate pattern  
-    return 1 + this.sumLikeAdjCells(row + row_modifier, col + col_modifier, row_modifier, col_modifier);
+  if (!field.gameOver) {
+    if (this.getCell(row, col) == (this.getCell(row + row_modifier, col + col_modifier))) {
+      // return a 1 and recursively call this function again on that matching cell with the same coordinate pattern 
+      return 1 + this.sumLikeAdjCells(row + row_modifier, col + col_modifier, row_modifier, col_modifier);
+    } else {
+      // else return 0
+      return 0;
+    } 
   } else {
-    // else return 0
-    return 0;
+    return;
   }
 };
 
@@ -157,13 +146,25 @@ function buildGameTable() {
   for (var i = 0; i < 6; i++) {
     $(".boardTable").append( $("<tr>").addClass("boardRow") );
     for (var j = 0; j < 7; j++) {
-      $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j)
-      .click(function() {
+      $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j).
+        click( _.debounce((function() {
         if(turn==0) { playColumn(jQuery.data(this,"column")); }
-      }));
+      }), 250)));
     }  
   }
 };
+
+function turnOffGameTable() {
+  $("#game-board")
+  for (var i = 0; i < 6; i++) {
+    $(".boardTable")[i]
+    for (var j = 0; j < 7; j++) {
+      $(".boardCell")[j].
+        click(); 
+    }  
+  }
+};
+
 
 function playColumn(c) {
   if (!field.isFull() && !field.gameOver) {
@@ -176,27 +177,34 @@ function playColumn(c) {
     $("#game-board tr td:nth-child("+(c+1)+"):not(.played):last").addClass("slideDown played player"+((field.turn % 2) + 1)).data("player",field.turn);
     field.cells[i][c] = ((field.turn % 2) + 1);
     field.turn += 1;
-  }
-  if (field.checkForWin(field.getRowCoordinate(c),c)) {
+    }
+    if (field.checkForWin(field.getRowCoordinate(c),c)) {
+      $("#score").html(
+        (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
+       );
+      document.getElementsByTagName("body")[0].style.background = "green";
+      field.gameOver = true;
+      field.displayReplayButton();
+      turnOffGameTable();
+      return;
+    } else if (field.isFull()) { 
     $("#score").html(
-      (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
-     );
-    field.gameOver = true
-    field.displayReplayButton();
-    return;
-  } else if (field.isFull()) { 
-    $("#score").html(
-      "Stalemate! Game over."
-    );
-    field.displayReplayButton();
-    field.gameOver = true
-    return;
-  }
+      "Stalemate!");
+      // field.displayCurrentPlayer();
+      field.cells.reverse();
+      document.getElementsByTagName("body")[0].style.background = "yellow";    
+      field.displayReplayButton();
+      field.gameOver = true;
+      turnOffGameTable();
+      return;
+    };
+  if (!field.isFull() && !field.gameOver) {
     field.displayCurrentPlayer();
-    field.cells.reverse();
-    store.set('cells', field.cells);
-    store.set('turn', field.turn);
-    store.set('moveCounter', field.moveCounter);
+  }
+  field.cells.reverse();
+  store.set('cells', field.cells);
+  store.set('turn', field.turn);
+  store.set('moveCounter', field.moveCounter);
 }
 
 if ( typeof playerA.name == "undefined" ) { 
