@@ -68,14 +68,10 @@ Board.prototype.checkForWin = function(row, col) {
     } else {
       // northeast and southwest
       if (this.sumLikeAdjCells(row, col, -1, 1) + (this.sumLikeAdjCells(row, col, 1, -1)) > 2) {
-        console.log("NE and SW")
-        console.log((this.sumLikeAdjCells(row, col, -1, 1) + (this.sumLikeAdjCells(row, col, 1, -1))))
         return true;
       } else {
         // northwest and southeast
         if (this.sumLikeAdjCells(row, col, -1, -1) + (this.sumLikeAdjCells(row, col, 1, 1)) > 2) {
-          console.log("NW and SE")
-          console.log((this.sumLikeAdjCells(row, col, -1, -1) + (this.sumLikeAdjCells(row, col, 1, 1))))
           return true;
         } else {
           return false;
@@ -190,7 +186,6 @@ function playColumn(c) {
     } else if (field.isFull()) { 
     $("#score").html(
       "Stalemate!");
-      // field.displayCurrentPlayer();
       field.cells.reverse();
       document.getElementsByTagName("body")[0].style.background = "yellow";    
       field.displayReplayButton();
