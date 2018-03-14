@@ -150,18 +150,6 @@ function buildGameTable() {
   }
 };
 
-function turnOffGameTable() {
-  $("#game-board")
-  for (var i = 0; i < 6; i++) {
-    $(".boardTable")[i]
-    for (var j = 0; j < 7; j++) {
-      $(".boardCell")[j].
-        click(); 
-    }  
-  }
-};
-
-
 function playColumn(c) {
   if (!field.isFull() && !field.gameOver) {
     field.cells.reverse();
@@ -181,7 +169,6 @@ function playColumn(c) {
       document.getElementsByTagName("body")[0].style.background = "green";
       field.gameOver = true;
       field.displayReplayButton();
-      turnOffGameTable();
       return;
     } else if (field.isFull()) { 
     $("#score").html(
@@ -190,7 +177,6 @@ function playColumn(c) {
       document.getElementsByTagName("body")[0].style.background = "yellow";    
       field.displayReplayButton();
       field.gameOver = true;
-      turnOffGameTable();
       return;
     };
   if (!field.isFull() && !field.gameOver) {
