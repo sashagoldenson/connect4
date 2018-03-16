@@ -14,8 +14,6 @@ const { window } = new JSDOM('<!doctype html><html><body><p id="player-name"></p
 global.window = window
 global.document = window.document;
 global.navigator = window.navigator;
-global.prompt = window.prompt;
-global.XMLHttpRequest = window.XMLHttpRequest;
 global.HTMLElement = window.HTMLElement;
 var MockStorage = require('mockstorage').MockStorage
 window.localStorage = new MockStorage();

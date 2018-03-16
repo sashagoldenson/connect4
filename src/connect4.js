@@ -1,7 +1,7 @@
 var store = require('store');
 var _ = require('underscore');
-var board = require('./../src/Board.js');
-var player = require('./../src/Player.js');
+var board = require('board');
+var player = require('player');
 
 $(document).ready(function() {
   store.get('cells')
@@ -32,7 +32,7 @@ function buildGameTable() {
     for (var j = 0; j < 7; j++) {
       $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j).
         click( _.debounce((function() {
-        if(turn==0) { field.playColumn(jQuery.data(this,"column")); }
+        if(turn==0) { playColumn(jQuery.data(this,"column")); }
       }), 250)));
     }  
   }
