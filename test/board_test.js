@@ -29,14 +29,32 @@ global.player = require('../src/Player.js');
 
 
 describe("board", function() {
+  var board1 = new board(0,0);
+  var playerA = new player(0, "red");
+  var playerB = new player(1, "black");
+  beforeEach( function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0]];
+    board1.gameOver = false;
+    board1.turn = 0;
+    board1.moveCounter = 0;
+  });
+
+  afterEach( function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0]]
+  });
+
   describe("Red win states", function() {
-    it("wins horizontally", function() {
-    turn = 0
-    moveCounter = 0
-    var board1 = new board(turn, moveCounter);
-    var playerA = new player(0, "red");
-    var playerB = new player(1, "black");
-    
+    it("can win horizontally", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -47,16 +65,96 @@ describe("board", function() {
     board1.checkForWin(4,3);
     expect(board1.gameOver).to.be.true
     });
-  });
-});
 
-// describe("Learning About Fixtures", function() {
-//   it("offers three crucial functions", function() {
-//     // readFixtures
-//     // setFixtures
-//     // loadFixtures
-//     expect(readFixtures).toBeDefined();
-//     expect(setFixtures).toBeDefined();
-//     expect(loadFixtures).toBeDefined();
-//   });
-// });
+    it("can win vertically", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0],
+    [1,2,0,0,0,0,0],
+    [1,2,0,0,0,0,0],
+    [1,2,0,0,0,0,0]]
+
+    board1.checkForWin(2,0);
+    expect(board1.gameOver).to.be.true
+    });
+
+    it("can win diagonally NE to SW", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0],
+    [0,0,0,0,1,1,0],
+    [0,0,0,1,2,2,0],
+    [0,0,1,2,2,1,0]]
+
+    board1.checkForWin(2,6);
+    expect(board1.gameOver).to.be.true
+    });
+
+    it("can win diagonally NW to SE", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0],
+    [0,2,1,2,2,0,0],
+    [1,2,2,1,1,1,1],
+    [1,1,2,2,1,1,2]]
+
+    board1.checkForWin(2,1);
+    expect(board1.gameOver).to.be.true
+    });
+  });
+
+  describe("Red fail states", function () {
+
+    it("cannot win horizontally with less than four in a row", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,2,2,0,0,0],
+    [0,0,1,1,1,0,0]]
+
+    board1.checkForWin(5,4);
+    expect(board1.gameOver).to.be.false
+    });
+
+
+    it("cannot win vertically with less than four in a row", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,1,0,0,0],
+    [0,0,0,1,2,0,0],
+    [0,0,0,1,2,0,0]]
+
+    board1.checkForWin(3,3);
+    expect(board1.gameOver).to.be.false
+    });
+
+
+    it("cannot win diagonally NE to SW with less than four in a row", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,1,0,0],
+    [0,0,2,1,1,0,0],
+    [0,0,1,2,2,0,0]]
+
+    board1.checkForWin(3,4);
+    expect(board1.gameOver).to.be.false
+    });
+
+
+    it("cannot win diagonally NW to SE with less than four in a row", function() {
+    board1.cells = [[0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,2,0,0,1,0,0],
+    [0,1,1,2,2,0,0],
+    [1,2,2,1,2,1,1],
+    [1,1,2,2,1,1,2]]
+
+    board1.checkForWin(3,2);
+    expect(board1.gameOver).to.be.false
+    });
+  })
+
+});

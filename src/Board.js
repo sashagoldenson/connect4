@@ -26,13 +26,13 @@ module.exports = function (turn, moveCounter) {
 
   // check all cardinal directions from a cell for neighbors which are the same, summing to four or more.
   this.checkForWin = function(row, col) {
-    // up and down
+    // left and right
     if (this.sumLikeAdjCells(row, col, 0, 1) + (this.sumLikeAdjCells(row, col, 0, -1)) > 2) {
       this.gameOver = true;
       return true;
     } else {
-      // left and right    
-      if (this.sumLikeAdjCells(row, col, -1, 0) > 2) {
+      // up and down    
+      if (this.sumLikeAdjCells(row, col, -1, 0) + (this.sumLikeAdjCells(row, col, 1, 0)) > 2) {
         this.gameOver = true;
         return true;
       } else {
