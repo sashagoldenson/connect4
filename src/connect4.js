@@ -1,7 +1,7 @@
 var store = require('store');
-var _ = require('underscore')
-
-playerName = document.getElementById("player-name");
+var _ = require('underscore');
+var board = require('./../src/Board.js');
+var player = require('./../src/Player.js');
 
 $(document).ready(function() {
   store.get('cells')
@@ -21,121 +21,9 @@ $(document).ready(function() {
 
 var turn = 0;
 var moveCounter = 0;
-
-function Player(id, color) {
-  this.id = id,
-  this.color = color
-};
-
-var field = new Board(0, 0);
-var playerA = new Player(0, "red");
-var playerB = new Player(1, "black");
-function Board(turn, moveCounter) {
-  this.cells = [[0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0]],
-  this.turn = turn,
-  this.moveCounter = moveCounter,
-  this.gameOver = false
-};
-
-Board.prototype.isFull = function() {
-    return this.moveCounter == 42 ? true : false; 
-}
-
-Board.prototype.displayCurrentPlayer = function() {
-  if ((this.turn % 2) == 0 ) {
-    document.getElementById("player-name").innerHTML = store.get('playerA')
-    document.getElementById("player-name").style.backgroundColor = "red" 
-  } else {
-    document.getElementById("player-name").innerHTML = store.get('playerB') 
-    document.getElementById("player-name").style.backgroundColor = "black"
-  }
-}
-
-// check all cardinal directions from a cell for neighbors which are the same, summing to four or more.
-Board.prototype.checkForWin = function(row, col) {
-  // up and down
-  if (this.sumLikeAdjCells(row, col, 0, 1) + (this.sumLikeAdjCells(row, col, 0, -1)) > 2) {
-    return true;
-  } else {
-    // left and right    
-    if (this.sumLikeAdjCells(row, col, -1, 0) > 2) {
-      return true;
-    } else {
-      // northeast and southwest
-      if (this.sumLikeAdjCells(row, col, -1, 1) + (this.sumLikeAdjCells(row, col, 1, -1)) > 2) {
-        return true;
-      } else {
-        // northwest and southeast
-        if (this.sumLikeAdjCells(row, col, -1, -1) + (this.sumLikeAdjCells(row, col, 1, 1)) > 2) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-  }
-};
-
-Board.prototype.sumLikeAdjCells = function(row, col, row_modifier, col_modifier) {
-  // if the current cell is like the cell which is found using the row and col incrementers
-  if (!field.gameOver) {
-    if (this.getCell(row, col) == (this.getCell(row + row_modifier, col + col_modifier))) {
-      // return a 1 and recursively call this function again on that matching cell with the same coordinate pattern 
-      return 1 + this.sumLikeAdjCells(row + row_modifier, col + col_modifier, row_modifier, col_modifier);
-    } else {
-      // else return 0
-      return 0;
-    } 
-  } else {
-    return;
-  }
-};
-
-Board.prototype.getCell = function(row, col) {
-  // checks to protect against requested cell being undefined
-  if (this.cells[row] == undefined || this.cells[row][col] == undefined) {
-    return -1;
-  } else {
-    return this.cells[row][col];
-  }
-};
-
-Board.prototype.getRowCoordinate = function(c) {
-  var i = field.cells.length - 1;
-  this.getCell(i, c)
-  while (this.getCell(i, c) == 0) {
-    i--;
-  }
-  return i;
-};
-
-Board.prototype.displayReplayButton = function() {
-  document.getElementById("replay").style.display = "inline";
-}
-
-Player.prototype.setPlayerName = function(playerName) {
-  this.name = playerName;
-};
-
-Player.prototype.getPlayerName = function(id) {
-  var txt;
-  var playerName = (id == 0) ? 
-    prompt("Red player, please enter your name:", "Red player") :
-    prompt("Black player, please enter your name:", "Black player")
-
-  if (playerName == null || playerName == "") {
-      txt = (id == 0) ? "Red player" : "Black player"
-  } else {
-      txt = playerName;
-  }
-  this.setPlayerName(txt);
-  field.displayCurrentPlayer();
-};
+var field = new board(0, 0);
+var playerA = new player(0, "red");
+var playerB = new player(1, "black");
 
 function buildGameTable() {
   $("#game-board").append( $("<table id='boardId'>").addClass("boardTable") );
@@ -144,7 +32,7 @@ function buildGameTable() {
     for (var j = 0; j < 7; j++) {
       $(".boardRow:last").append( $("<td>").addClass("boardCell").data("column",j).
         click( _.debounce((function() {
-        if(turn==0) { playColumn(jQuery.data(this,"column")); }
+        if(turn==0) { field.playColumn(jQuery.data(this,"column")); }
       }), 250)));
     }  
   }
@@ -167,7 +55,6 @@ function playColumn(c) {
         (((field.turn % 2) + 1) == 1) ? (store.get('playerB') + ' wins!') : (store.get('playerA') + ' wins!')
        );
       document.getElementsByTagName("body")[0].style.background = "green";
-      field.gameOver = true;
       field.displayReplayButton();
       return;
     } else if (field.isFull()) { 
@@ -194,3 +81,4 @@ if ( typeof playerA.name == "undefined" ) {
   playerB.getPlayerName(1);
   store.set('playerB', playerB.name)
 }
+field.displayCurrentPlayer();
