@@ -24,10 +24,8 @@ var expect = chai.expect;
 global.sinon = require('sinon'); // eslint-disable-line import/no-commonjs, import/newline-after-import
 var store = require("store")
 global.$ = require('jquery');
-require('../src/connect4.js')
-var board = require('./../src/Board.js');
-var player = require('./../src/Player.js')
-
+global.board = require('../src/Board.js');
+global.player = require('../src/Player.js');
 
 
 describe("board", function() {
