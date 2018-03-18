@@ -1,29 +1,12 @@
 require('jsdom-global')()
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-
-// const options = ;
-const { window } = new JSDOM('<!doctype html><html><body><p id="player-name"></p></body></html>', {
-  resources: 'usable',
-  runScripts: 'dangerously',
-  beforeParse(window) {
-    window.prompt = window.prompt.bind(window.prompt)
-  },
-  url: 'http://localhost'
-});
+const { window } = new JSDOM('<!doctype html><html><body><p id="player-name"></p></body></html>');
 global.window = window
 global.document = window.document;
-global.navigator = window.navigator;
-global.HTMLElement = window.HTMLElement;
-var MockStorage = require('mockstorage').MockStorage
-window.localStorage = new MockStorage();
-window.sessionStorage = new MockStorage();
-
 const chai = require('chai');
 var expect = chai.expect;
-global.sinon = require('sinon'); // eslint-disable-line import/no-commonjs, import/newline-after-import
 var store = require("store")
-global.$ = require('jquery');
 global.board = require('../src/Board.js');
 global.player = require('../src/Player.js');
 

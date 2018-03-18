@@ -30,6 +30,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^0.1.6",
+    "karma-mocha": "^1.3.0",
     "mocha": "^5.0.4",
     "mocha-es6": "^0.5.3",
     "mochawesome": "^3.0.2",
