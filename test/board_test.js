@@ -3,7 +3,6 @@ var expect = chai.expect;
 var store = require("store")
 global.board = require('../src/Board.js');
 
-
 describe("board", function() {
   var board1 = new board(0,0);
   beforeEach( function() {
@@ -82,7 +81,6 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
-
     it("cannot win vertically with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -95,7 +93,6 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
-
     it("cannot win diagonally NE to SW with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -107,7 +104,6 @@ describe("board", function() {
     board1.checkForWin(3,4);
     expect(board1.gameOver).to.be.false
     });
-
 
     it("cannot win diagonally NW to SE with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
@@ -186,7 +182,6 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
-
     it("cannot win vertically with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -199,7 +194,6 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
-
     it("cannot win diagonally NE to SW with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -211,7 +205,6 @@ describe("board", function() {
     board1.checkForWin(3,4);
     expect(board1.gameOver).to.be.false
     });
-
 
     it("cannot win diagonally NW to SE with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
