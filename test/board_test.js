@@ -1,20 +1,11 @@
-require('jsdom-global')()
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM('<!doctype html><html><body><p id="player-name"></p></body></html>');
-global.window = window
-global.document = window.document;
 const chai = require('chai');
 var expect = chai.expect;
 var store = require("store")
 global.board = require('../src/Board.js');
-global.player = require('../src/Player.js');
 
 
 describe("board", function() {
   var board1 = new board(0,0);
-  var playerA = new player(0, "red");
-  var playerB = new player(1, "black");
   beforeEach( function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
