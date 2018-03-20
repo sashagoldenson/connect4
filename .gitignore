@@ -1,5 +1,5 @@
 # dependencies
 /node_modules
 
-# test reporting
+# test reporting  
 /mochawesome-report

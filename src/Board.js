@@ -1,5 +1,3 @@
-var store = require('store');
-
 module.exports = function (turn, moveCounter) {
   this.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -12,16 +10,6 @@ module.exports = function (turn, moveCounter) {
   this.gameOver = false;
   this.isFull = function() {
     return this.moveCounter == 42 ? true : false; 
-  };
-
-  this.displayCurrentPlayer = function() {
-    if ((this.turn % 2) == 0 ) {
-      document.getElementById("player-name").innerHTML = store.get('playerA')
-      document.getElementById("player-name").style.backgroundColor = "red" 
-    } else {
-      document.getElementById("player-name").innerHTML = store.get('playerB') 
-      document.getElementById("player-name").style.backgroundColor = "black"
-    }
   };
 
   // check all cardinal directions from a cell for neighbors which are the same, summing to four or more.

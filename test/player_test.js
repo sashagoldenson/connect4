@@ -9,14 +9,20 @@ describe("player", function() {
   beforeEach( function() {
     playerA = new player(0, "red");
     playerB = new player(1, "black");
-  });
+  })
 
   describe('setPlayerName()', function() {
 
-    it('will set player name', function() {
-      playerA.setPlayerName("playerA test");
+    it('will set playerA name', function() {
+      playerA.setPlayerName(playerA.id, "playerA test");
       expect(playerA.name).to.equal("playerA test");
     });
 
+    it('will set playerB name', function() {
+      playerB.setPlayerName(playerB.id, "playerB test");
+      expect(playerB.name).to.equal("playerB test");
+    });
+
   });
+  
 });

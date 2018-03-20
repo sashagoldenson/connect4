@@ -1,7 +1,14 @@
+require('jsdom-global')()
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM('<!doctype html><html><body><p id="player-name"></p></body></html>');
+global.window = window
+global.document = window.document;
 const chai = require('chai');
 var expect = chai.expect;
 var store = require("store")
 global.board = require('../src/Board.js');
+global.player = require('../src/Player.js');
 
 describe("board", function() {
   var board1 = new board(0,0);
@@ -81,6 +88,7 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
+
     it("cannot win vertically with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -93,6 +101,7 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
+
     it("cannot win diagonally NE to SW with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -104,6 +113,7 @@ describe("board", function() {
     board1.checkForWin(3,4);
     expect(board1.gameOver).to.be.false
     });
+
 
     it("cannot win diagonally NW to SE with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
@@ -182,6 +192,7 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
+
     it("cannot win vertically with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -193,6 +204,7 @@ describe("board", function() {
     board1.checkForWin(3,3);
     expect(board1.gameOver).to.be.false
     });
+
 
     it("cannot win diagonally NE to SW with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
@@ -206,6 +218,7 @@ describe("board", function() {
     expect(board1.gameOver).to.be.false
     });
 
+
     it("cannot win diagonally NW to SE with less than four in a row", function() {
     board1.cells = [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -217,6 +230,29 @@ describe("board", function() {
     board1.checkForWin(3,2);
     expect(board1.gameOver).to.be.false
     });
-  })
+  });
+
+  describe("player name", function() {
+    var playerA;
+    var playerB;
+    beforeEach( function() {
+      playerA = new player(0, "red");
+      playerA = new player(0, "black");
+    });
+
+    describe('displayPlayerName()', function() {
+
+      it('changes the displayed, opposite player', function() {
+        playerA.setPlayerName(0, "playerA");
+        console.log(playerA)
+
+        document.getElementById("player-name").innerHTML = store.get('playerA')
+        expect(document.getElementById("player-name").innerHTML).
+          to.equal(playerA.name)
+        expect(document.getElementById("player-name").style.backgroundColor = "red" ).to.equal("red")
+      });
+
+    });
+  });
 
 });
