@@ -1,9 +1,4 @@
 { "presets": [
     "es2015", 
-    "env", {
-      "targets": {
-        "node": "current"
-      }
-    }
   ] 
 }

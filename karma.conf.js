@@ -1,8 +1,18 @@
 // Karma configuration
 // Generated on Sat Mar 17 2018 19:02:51 GMT-0700 (PDT)
 
-module.exports = function(config) {
+module.exports = function karmaConfig(config) {
+  let customBrowsers = ['Chrome', 'Safari', 'Firefox', 'PhantomJS']
+  if (process.env.TRAVIS) {
+    customBrowsers = ['PhantomJS']
+  }
+
   config.set({
+
+    client: {
+      args: parseTestPattern(process.argv)
+    },
+
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -10,12 +20,12 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'sinon-chai', 'browserify'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'test/**/*[tT]est.js'
+      'test/**.js'
     ],
 
 
@@ -27,13 +37,36 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/**/*.js': ['browserify'],
+      'test/**/*_test.js': ['browserify']
+    },
+
+
+    // Browserify configuration
+    browserify: {
+      debug: true,
+      transform: [
+        [
+          'babelify',
+          {
+            presets: 'es2015'
+          }
+        ], [
+          'browserify-istanbul',
+          {
+            instrumenterConfig: {
+              embedSource: true
+            }
+          }
+        ]
+      ]
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['coverage', 'mocha'],
 
 
     // web server port
@@ -55,7 +88,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: customBrowsers,
 
 
     // Continuous Integration mode
@@ -66,4 +99,19 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity
   })
+
+  function parseTestPattern(argv) {
+    var found = false;
+    var pattern = argv.map(function(v) {
+      if (found) {
+        return v;
+      }
+      if (v === '--') {
+        found = true;
+      }
+    }).
+    filter(function(a) { return a }).
+    join(' ');
+    return pattern ? ['--grep', pattern] : [];
+  }
 }

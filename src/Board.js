@@ -9,8 +9,19 @@ module.exports = function (turn, moveCounter) {
   this.moveCounter = moveCounter;
   this.gameOver = false;
   this.isFull = function() {
-    return this.moveCounter == 42 ? true : false; 
+    return this.moveCounter >= 42 ? true : false; 
   };
+
+  this.displayCurrentPlayer = function() {
+    if ((this.turn % 2) == 0 ) {
+      $("#player-name").text(localStorage.getItem('playerAName'));
+      $("#player-name").css("background-color", "#ff0000")
+    } else {
+      $("#player-name").html(localStorage.getItem('playerBName'));
+      $("#player-name").css("background-color","#000000");
+    }
+  };
+
 
   // check all cardinal directions from a cell for neighbors which are the same, summing to four or more.
   this.checkForWin = function(row, col) {

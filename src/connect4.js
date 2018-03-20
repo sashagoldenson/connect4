@@ -41,18 +41,6 @@ function buildGameTable() {
   }
 };
 
-
-function displayCurrentPlayer() {
-  if ((field.turn % 2) == 0 ) {
-    document.getElementById("player-name").innerHTML = localStorage['playerAName']
-    document.getElementById("player-name").style.backgroundColor = "red" 
-  } else {
-    document.getElementById("player-name").innerHTML = localStorage['playerBName']
-    document.getElementById("player-name").style.backgroundColor = "black"
-  }
-};
-
-
 function getPlayerNames() {
   $('#player-a-name-modal').modal('show');
   setTimeout(function() {
@@ -80,7 +68,7 @@ function handleFormSubmit(event, form) {
       localStorage.setItem("playerBName", form.elements[0].value);
     }
     $('#player-b-name-modal').modal('toggle');
-    displayCurrentPlayer();
+    field.displayCurrentPlayer();
     return true;
   }
 };
@@ -114,7 +102,7 @@ function playColumn(c) {
       return;
     };
   if (!field.isFull() && !field.gameOver) {
-    displayCurrentPlayer();
+    field.displayCurrentPlayer();
   }
   field.cells.reverse();
   store.set('cells', field.cells);

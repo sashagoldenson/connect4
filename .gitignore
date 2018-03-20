@@ -1,5 +1,10 @@
 # dependencies
-/node_modules
+node_modules/
 
 # test reporting  
-/mochawesome-report
+mochawesome-report/
+coverage/
+
+.DS_Store
+
+npm-debug.log
