@@ -1,19 +1,19 @@
 module.exports = function (turn, moveCounter) {
-  this.cells = [[0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
+  this.cells = [[0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0], 
     [0,0,0,0,0,0,0]];
   this.turn = turn;
   this.moveCounter = moveCounter;
   this.gameOver = false;
-  this.isFull = function() {
+  this.isFull = function () {
     return this.moveCounter >= 42 ? true : false; 
   };
 
-  this.displayCurrentPlayer = function() {
-    if ((this.turn % 2) == 0 ) {
+  this.displayCurrentPlayer = function () {
+    if ((this.turn % 2) === 0 ) {
       $("#player-name").text(localStorage.getItem('playerAName'));
       $("#player-name").css("background-color", "#ff0000")
     } else {
@@ -23,8 +23,9 @@ module.exports = function (turn, moveCounter) {
   };
 
 
-  // check all cardinal directions from a cell for neighbors which are the same, summing to four or more.
-  this.checkForWin = function(row, col) {
+  // check all cardinal directions from a cell for neighbors which are the
+  // same, summing to four or more.
+  this.checkForWin = function (row, col) {
     // left and right
     if (this.sumLikeAdjCells(row, col, 0, 1) + (this.sumLikeAdjCells(row, col, 0, -1)) > 2) {
       this.gameOver = true;
@@ -52,7 +53,7 @@ module.exports = function (turn, moveCounter) {
     }
   };
 
-  this.sumLikeAdjCells = function(row, col, row_modifier, col_modifier) {
+  this.sumLikeAdjCells = function (row, col, row_modifier, col_modifier) {
     // if the current cell is like the cell which is found using the row and col incrementers
     if (!this.gameOver) {
       if (this.getCell(row, col) == (this.getCell(row + row_modifier, col + col_modifier))) {
@@ -67,7 +68,7 @@ module.exports = function (turn, moveCounter) {
     }
   };
 
-  this.getCell = function(row, col) {
+  this.getCell = function (row, col) {
     // checks to protect against requested cell being undefined
     if (this.cells[row] == undefined || this.cells[row][col] == undefined) {
       return -1;
@@ -76,7 +77,7 @@ module.exports = function (turn, moveCounter) {
     }
   };
 
-  this.getRowCoordinate = function(c) {
+  this.getRowCoordinate = function (c) {
     var i = this.cells.length - 1;
     this.getCell(i, c)
     while (this.getCell(i, c) == 0) {
@@ -85,7 +86,7 @@ module.exports = function (turn, moveCounter) {
     return i;
   };
 
-  this.displayReplayButton = function() {
+  this.displayReplayButton = function () {
     document.getElementById("replay").style.display = "inline";
   };
 };
