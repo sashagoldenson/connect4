@@ -232,7 +232,7 @@ describe("board", function() {
     });
   });
 
-  describe("player name", function() {
+  describe("Player names", function() {
     var playerA;
     var playerB;
     beforeEach( function() {
@@ -240,16 +240,9 @@ describe("board", function() {
       playerA = new player(0, "black");
     });
 
-    describe('displayPlayerName()', function() {
+    describe('displayCurrentPlayer()', function() {
 
-      it('changes the displayed, opposite player', function() {
-        playerA.setPlayerName(0, "playerA");
-        console.log(playerA)
-
-        document.getElementById("player-name").innerHTML = store.get('playerA')
-        expect(document.getElementById("player-name").innerHTML).
-          to.equal(playerA.name)
-        expect(document.getElementById("player-name").style.backgroundColor = "red" ).to.equal("red")
+      xit('displays current player by evaluating the turn', function() {
       });
 
     });

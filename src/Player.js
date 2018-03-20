@@ -4,5 +4,10 @@ module.exports = function (id, color) {
 
   this.setPlayerName = function(id, playerName) {
     this.name = playerName;
+    if (id == 0) {
+      localStorage.setItem('playerAName', playerName)
+    } else {
+      localStorage.setItem('playerBName', playerName)
+    }
   };
 };

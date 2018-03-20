@@ -44,7 +44,6 @@ function buildGameTable() {
 
 function displayCurrentPlayer() {
   if ((field.turn % 2) == 0 ) {
-    console.log(localStorage['playerAName'])
     document.getElementById("player-name").innerHTML = localStorage['playerAName']
     document.getElementById("player-name").style.backgroundColor = "red" 
   } else {
@@ -66,10 +65,8 @@ function handleFormSubmit(event, form) {
   if (!localStorage['playerAName']) {
     if (form.elements[0].value == "" || form.elements[0].value == undefined) {
       localStorage.setItem("playerAName", "Red player")
-      playerA.setPlayerName(0, 'Red player')
     } else {
       localStorage.setItem("playerAName", form.elements[0].value)
-      playerA.setPlayerName(0, form.elements[0].value)
     }
     $('#player-a-name-modal').modal('toggle');
     $('#player-b-name-modal').modal('show');
@@ -79,10 +76,8 @@ function handleFormSubmit(event, form) {
   } else {
     if (form.elements[0].value == "" || form.elements[0].value == undefined) {
       localStorage.setItem("playerBName", "Black player")
-      playerA.setPlayerName(1, "Black player")
     } else {
       localStorage.setItem("playerBName", form.elements[0].value);
-      playerA.setPlayerName(1, form.elements[0].value)
     }
     $('#player-b-name-modal').modal('toggle');
     displayCurrentPlayer();
