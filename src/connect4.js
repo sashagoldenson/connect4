@@ -59,15 +59,17 @@ function getPlayerNames() {
   setTimeout(function() {
     document.getElementById("player-a-input").focus();
   }, 500);
-}
+};
 
 function handleFormSubmit(event, form) {  
   event.preventDefault();
   if (!localStorage['playerAName']) {
     if (form.elements[0].value == "" || form.elements[0].value == undefined) {
       localStorage.setItem("playerAName", "Red player")
+      playerA.setPlayerName(0, 'Red player')
     } else {
       localStorage.setItem("playerAName", form.elements[0].value)
+      playerA.setPlayerName(0, form.elements[0].value)
     }
     $('#player-a-name-modal').modal('toggle');
     $('#player-b-name-modal').modal('show');
@@ -77,14 +79,17 @@ function handleFormSubmit(event, form) {
   } else {
     if (form.elements[0].value == "" || form.elements[0].value == undefined) {
       localStorage.setItem("playerBName", "Black player")
+      playerA.setPlayerName(1, "Black player")
     } else {
       localStorage.setItem("playerBName", form.elements[0].value);
+      playerA.setPlayerName(1, form.elements[0].value)
     }
     $('#player-b-name-modal').modal('toggle');
     displayCurrentPlayer();
     return true;
   }
-}
+};
+
 function playColumn(c) {
   if (!field.isFull() && !field.gameOver) {
     field.cells.reverse();
@@ -121,11 +126,3 @@ function playColumn(c) {
   store.set('turn', field.turn);
   store.set('moveCounter', field.moveCounter);
 };
-
-// if ( typeof playerA.name == "undefined" ) { 
-//   playerA.getPlayerName(0);
-//   store.set('playerA', playerA.name)
-//   playerB.getPlayerName(1);
-//   store.set('playerB', playerB.name)
-// }
-// field.displayCurrentPlayer();
