@@ -3,4 +3,4 @@
 
 # connect4
 ### Connect Four in JavaScript
-Demo here: [Connect Four in JS](http://sashagoldenson.com/#connect-4)
+Demo here: [Connect Four in JS](http://sashagoldenson.com/#connect4)
