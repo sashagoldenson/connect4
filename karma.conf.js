@@ -67,6 +67,16 @@ module.exports = function karmaConfig(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['growl', 'progress', 'mocha', 'coverage'],
+    
+    // Configure code coverage reporter
+    coverageReporter: {
+        reporters: [
+            // generates ./coverage/lcov.info
+            {type:'lcovonly', subdir: '.'},
+            // generates ./coverage/coverage-final.json
+            {type:'json', subdir: '.'},
+        ]
+    },
 
 
     // web server port

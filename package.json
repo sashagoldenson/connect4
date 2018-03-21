@@ -7,9 +7,10 @@
   "main": "connect4.js",
   "scripts": {
     "build": "./node_modules/.bin/browserify -r growly -r underscore -r store -r bootstrap -r ./src/Player.js:player -r ./src/Board.js:board  > public/bundle.js",
+    "codecov": "cat ./coverage/*/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js",
+    "report-coverage": "codecov",
     "test": "./node_modules/karma/bin/karma start karma.conf.js --single-run --",
-    "test:tdd": "karma start --auto-watch --no-single-run --reporters growl, coverage, mocha --",
-    "codecov": "cat ./coverage/*/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:tdd": "karma start --auto-watch --no-single-run --reporters growl, coverage, mocha --"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
