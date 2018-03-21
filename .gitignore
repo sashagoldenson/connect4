@@ -1,9 +1,6 @@
 # dependencies
 node_modules/
 
-# test reporting  
-mochawesome-report/
-
 .DS_Store
 
 npm-debug.log 
